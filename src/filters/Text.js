@@ -6,16 +6,14 @@ class TextFilter extends Component {
     super(props);
     this.filter = this.filter.bind(this);
     this.timeout = null;
+    this.state = {
+      value: ''
+    };
   }
 
   filter(event) {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
     const filterValue = event.target.value;
-    this.timeout = setTimeout(() => {
-      this.props.filterHandler(filterValue, Const.FILTER_TYPE.TEXT);
-    }, this.props.delay);
+    this.props.filterHandler(filterValue, Const.FILTER_TYPE.TEXT);
   }
 
   componentDidMount() {
@@ -29,15 +27,23 @@ class TextFilter extends Component {
     clearTimeout(this.timeout);
   }
 
+  handleTextChange(event) {
+    this.setState({
+      value: event.target.value
+    });
+  }
+
   render() {
     const { placeholder, columnName, defaultValue } = this.props;
     return (
-      <input ref='inputText'
-        className='filter text-filter form-control'
-        type='text'
-        onChange={ this.filter }
-        placeholder={ placeholder || `Enter ${columnName}...` }
-        defaultValue={ defaultValue ? defaultValue : '' } />
+      <form onSubmit={ this.filter }>
+        <input ref='inputText'
+          className='filter text-filter form-control'
+          type='text'
+          onChange={ this.handleTextChange }
+          placeholder={ placeholder || `Enter ${columnName}...` }
+          defaultValue={ defaultValue ? defaultValue : '' } />
+      </form>
     );
   }
 }
@@ -45,13 +51,8 @@ class TextFilter extends Component {
 TextFilter.propTypes = {
   filterHandler: PropTypes.func.isRequired,
   defaultValue: PropTypes.string,
-  delay: PropTypes.number,
   placeholder: PropTypes.string,
   columnName: PropTypes.string
-};
-
-TextFilter.defaultProps = {
-  delay: Const.FILTER_DELAY
 };
 
 export default TextFilter;
