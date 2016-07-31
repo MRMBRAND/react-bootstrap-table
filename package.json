@@ -9,8 +9,7 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "start": "gulp example-server",
-    "build": "gulp prod"
+    "start": "gulp example-server"
   },
   "keywords": [
     "react",
