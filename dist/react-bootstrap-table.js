@@ -6952,13 +6952,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.state = {
 	      value: ''
 	    };
+	    this.handleTextChange = this.handleTextChange.bind(this);
 	  }
 
 	  _createClass(TextFilter, [{
 	    key: 'filter',
-	    value: function filter(event) {
-	      var filterValue = event.target.value;
-	      this.props.filterHandler(filterValue, _Const2['default'].FILTER_TYPE.TEXT);
+	    value: function filter() {
+	      this.props.filterHandler(this.state.value, _Const2['default'].FILTER_TYPE.TEXT);
 	    }
 	  }, {
 	    key: 'componentDidMount',

@@ -9,11 +9,11 @@ class TextFilter extends Component {
     this.state = {
       value: ''
     };
+    this.handleTextChange = this.handleTextChange.bind(this);
   }
 
-  filter(event) {
-    const filterValue = event.target.value;
-    this.props.filterHandler(filterValue, Const.FILTER_TYPE.TEXT);
+  filter() {
+    this.props.filterHandler(this.state.value, Const.FILTER_TYPE.TEXT);
   }
 
   componentDidMount() {
