@@ -8,6 +8,7 @@ import TextFilter from './filters/Text';
 import RegexFilter from './filters/Regex';
 import SelectFilter from './filters/Select';
 import NumberFilter from './filters/Number';
+import MRMFilter from './filters/MRM';
 
 class TableHeaderColumn extends Component {
 
@@ -55,6 +56,12 @@ class TableHeaderColumn extends Component {
     case Const.FILTER_TYPE.DATE: {
       return (
         <DateFilter { ...this.props.filter }
+          columnName={ this.props.children } filterHandler={ this.handleFilter } />
+      );
+    }
+    case Const.FILTER_TYPE.MRM: {
+      return (
+        <MRMFilter { ...this.props.filter }
           columnName={ this.props.children } filterHandler={ this.handleFilter } />
       );
     }
