@@ -1317,6 +1317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    SELECT: 'SelectFilter',
 	    NUMBER: 'NumberFilter',
 	    DATE: 'DateFilter',
+	    MRM: 'MRMFilter',
 	    CUSTOM: 'CustomFilter'
 	  }
 	};
@@ -6949,16 +6950,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _get(Object.getPrototypeOf(TextFilter.prototype), 'constructor', this).call(this, props);
 	    this.filter = this.filter.bind(this);
 	    this.timeout = null;
-	    this.state = {
-	      value: ''
-	    };
-	    this.handleTextChange = this.handleTextChange.bind(this);
 	  }
 
 	  _createClass(TextFilter, [{
 	    key: 'filter',
-	    value: function filter() {
-	      this.props.filterHandler(this.state.value, _Const2['default'].FILTER_TYPE.TEXT);
+	    value: function filter(event) {
+	      var _this = this;
+
+	      if (this.timeout) {
+	        clearTimeout(this.timeout);
+	      }
+	      var filterValue = event.target.value;
+	      this.timeout = setTimeout(function () {
+	        _this.props.filterHandler(filterValue, _Const2['default'].FILTER_TYPE.TEXT);
+	      }, this.props.delay);
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -6974,13 +6979,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      clearTimeout(this.timeout);
 	    }
 	  }, {
-	    key: 'handleTextChange',
-	    value: function handleTextChange(event) {
-	      this.setState({
-	        value: event.target.value
-	      });
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _props = this.props;
@@ -6988,16 +6986,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var columnName = _props.columnName;
 	      var defaultValue = _props.defaultValue;
 
-	      return _react2['default'].createElement(
-	        'form',
-	        { onSubmit: this.filter },
-	        _react2['default'].createElement('input', { ref: 'inputText',
-	          className: 'filter text-filter form-control',
-	          type: 'text',
-	          onChange: this.handleTextChange,
-	          placeholder: placeholder || 'Enter ' + columnName + '...',
-	          defaultValue: defaultValue ? defaultValue : '' })
-	      );
+	      return _react2['default'].createElement('input', { ref: 'inputText',
+	        className: 'filter text-filter form-control',
+	        type: 'text',
+	        onChange: this.filter,
+	        placeholder: placeholder || 'Enter ' + columnName + '...',
+	        defaultValue: defaultValue ? defaultValue : '' });
 	    }
 	  }]);
 
@@ -7007,8 +7001,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	TextFilter.propTypes = {
 	  filterHandler: _react.PropTypes.func.isRequired,
 	  defaultValue: _react.PropTypes.string,
+	  delay: _react.PropTypes.number,
 	  placeholder: _react.PropTypes.string,
 	  columnName: _react.PropTypes.string
+	};
+
+	TextFilter.defaultProps = {
+	  delay: _Const2['default'].FILTER_DELAY
 	};
 
 	exports['default'] = TextFilter;

@@ -31,6 +31,7 @@ export default {
     SELECT: 'SelectFilter',
     NUMBER: 'NumberFilter',
     DATE: 'DateFilter',
+    MRM: 'MRMFilter',
     CUSTOM: 'CustomFilter'
   }
 };
