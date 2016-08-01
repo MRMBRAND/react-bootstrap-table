@@ -12,7 +12,8 @@ class MRMFilter extends Component {
     this.handleTextChange = this.handleTextChange.bind(this);
   }
 
-  filter() {
+  filter(e) {
+    e.preventDefault();
     this.props.filterHandler(this.state.value, Const.FILTER_TYPE.MRM);
   }
 
